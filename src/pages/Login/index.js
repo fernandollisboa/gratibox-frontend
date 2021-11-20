@@ -16,7 +16,7 @@ const Login = () => {
 	return (
 		<LoginContainer>
 			<PageTitle>
-				Bem vindo ao <strong>GratiBox</strong>
+				Bem-vindo ao <strong>GratiBox</strong>
 			</PageTitle>
 			<input
 				type="email"

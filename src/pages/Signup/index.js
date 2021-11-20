@@ -1,106 +1,137 @@
 import styled from "styled-components";
 import { useState } from "react";
-
-import { PageTitle } from "../../styles/shared";
+import { PageWrapper, PageTitle } from "../../styles/shared";
 import StyledLoader from "../../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const [name, setname] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 
-	function register() {
+	function signUp(e) {
+		e.preventDefault();
 		setIsLoading(true);
 		console.log(name, email, password, confirmPassword);
 	}
 
 	return (
-		<SignupContainer>
+		<PageWrapper>
 			<PageTitle>
-				Bem vindo ao <strong>GratiBox</strong>
+				Bem-vindo ao <strong>GratiBox</strong>
 			</PageTitle>
-			<input
-				type="text"
-				required
-				placeholder="Name"
-				onChange={(e) => setname(e.target.value)}
-				value={name}
-				disabled={isLoading}
-			/>
-			<input
-				type="email"
-				required
-				placeholder="E-mail"
-				onChange={(e) => setEmail(e.target.value)}
-				value={email}
-				disabled={isLoading}
-			/>
-			<input
-				type="password"
-				required
-				placeholder="Password"
-				onChange={(e) => setPassword(e.target.value)}
-				value={password}
-				disabled={isLoading}
-			/>
-			<input
-				type="password"
-				required
-				placeholder="Confirm password"
-				onChange={(e) => setConfirmPassword(e.target.value)}
-				value={confirmPassword}
-				disabled={isLoading}
-			/>
-			<button className="signer" onClick={register}>
-				{isLoading ? <StyledLoader /> : "Cadastrar"}
-			</button>
-		</SignupContainer>
+			<SignupForm onSubmit={signUp}>
+				<input
+					type="text"
+					required
+					placeholder="Name"
+					onChange={(e) => setname(e.target.value)}
+					value={name}
+					disabled={isLoading}
+				/>
+				<input
+					type="email"
+					required
+					placeholder="E-mail"
+					onChange={(e) => setEmail(e.target.value)}
+					value={email}
+					disabled={isLoading}
+				/>
+				<input
+					type="password"
+					required
+					placeholder="Password"
+					onChange={(e) => setPassword(e.target.value)}
+					value={password}
+					disabled={isLoading}
+				/>
+				<input
+					type="password"
+					required
+					placeholder="Confirm password"
+					onChange={(e) => setConfirmPassword(e.target.value)}
+					value={confirmPassword}
+					disabled={isLoading}
+				/>
+				<button type="submit" className="signer" onClick={signUp}>
+					{isLoading ? <StyledLoader /> : "Cadastrar"}
+				</button>
+			</SignupForm>
+			<HomeButton onClick={() => navigate("/")}>Voltar Para Login</HomeButton>
+		</PageWrapper>
 	);
 };
 
 export default Signup;
 
-const SignupContainer = styled.div`
+const SignupForm = styled.form`
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	padding: 20px;
-	height: 100vh;
-	overflow: hidden;
-	background-color: #6d7ce4;
-	position: fixed;
+	flex-direction: column;
 	width: 100%;
-	top: 0;
+	flex: 1;
+
 	input {
 		height: 58px;
 		width: 100%;
-		border-radius: 5px;
+		border-radius: 10px;
 		border: none;
 		outline: none;
+		color: #604848;
 		margin: 7px 0px;
 		padding: 15px;
 		font-size: 20px;
-		max-width: 350px;
+		max-width: 89%;
 	}
-	.signer {
+
+	button {
 		border: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		outline: none;
-		height: 46px;
 		width: 100%;
-		max-width: 350px;
+		max-width: 300px;
 		font-weight: 700;
-		font-size: 36px;
-		font-family: "Raleway", sans-serif;
-		border-radius: 5px;
+		font-size: 32px;
+		border-radius: 10px;
 		background-color: #8c97ea;
 		color: #fff;
-		font-weight: bolder;
 		padding: 10px 20px;
-		margin: 20px 0px 0px 0px;
+		margin-top: 20px;
 		cursor: pointer;
-		max-width: 200px;
+	}
+`;
+
+const HomeButton = styled.button`
+	font-weight: 500;
+	cursor: pointer;
+	width: 60%;
+	padding: 4% 5%;
+	color: var(--color-4);
+	font-size: 20px;
+	background: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	height: 100%;
+	padding-bottom: 30vw;
+`;
+
+const ButtonsContainer = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(77, 101, 168);
+	flex: 1;
+	padding-bottom: 13%;
+
+	button {
 	}
 `;

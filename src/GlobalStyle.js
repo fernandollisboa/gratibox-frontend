@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
       background-color: var(--color-0);
       font-family: "Roboto", Sans-Serif;
       width: 100%;
-      min-width: 100vw;
+      max-width: 100vw;
       height: 100%;
     }
 

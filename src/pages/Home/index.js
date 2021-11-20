@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { PageWrapper, PageTitle } from "../../styles/shared";
+import { PageDescription, PageWrapper, PageTitle } from "../../styles/shared";
 import image from "../../../src/assets/image05.webp";
 
 const Home = () => {
 	const navigate = useNavigate();
 	return (
-		<PageWrapper backgroundGradient="linear-gradient(var(--color-0),rgb(77, 101, 168));">
+		<PageWrapper>
 			<PageTitle>
-				Bem vindo ao <strong>GratiBox</strong>
+				Bem-vindo ao <strong>GratiBox</strong>
 			</PageTitle>
 			<PageDescription>
 				Receba em casa um box com chás, produtos orgânicos, incensos e muito mais...
@@ -28,30 +28,23 @@ export default Home;
 const Image = styled.img`
 	height: 50%;
 	width: 100%;
-	padding: 10px 0px;
-`;
-
-export const PageDescription = styled.span`
-	font-weight: 300;
-	font-size: 18px;
-	text-align: center;
-	color: white;
-	line-height: 130%;
-	padding: 0px 30px 20px 30px;
 `;
 
 const ButtonsContainer = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	max-width: 1000px;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(77, 101, 168);
+	flex: 1;
+	padding-bottom: 13%;
 
 	button {
-		font-weight: 600;
+		font-weight: 700;
 		cursor: pointer;
-		font-size: 18px;
-		width: 200px;
-		padding: 10px 20px;
+		width: 60%;
+		padding: 4% 5%;
 		color: var(--color-4);
 	}
 `;
@@ -59,15 +52,18 @@ const ButtonsContainer = styled.div`
 const SignupButton = styled.button`
 	font-family: "Roboto", sans-serif;
 	background-color: #8c97ea;
-	align-self: center;
 	border: none;
 	border-radius: 5px;
 	margin-bottom: 5px;
+	font-size: 25px;
 `;
 
 const LoginButton = styled.button`
+	font-size: 23px;
 	background: transparent;
-	align-self: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border: none;
-	margin-bottom: 20px;
+	height: 100%;
 `;
