@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PageDescription, PageWrapper, PageTitle } from "../../styles/shared";
@@ -28,6 +27,10 @@ export default Home;
 const Image = styled.img`
 	height: 50%;
 	width: 100%;
+	@media screen and(min-width: 900px) {
+		width: 80%;
+		height: 80%;
+	}
 `;
 
 const ButtonsContainer = styled.div`

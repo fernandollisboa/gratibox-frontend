@@ -16,8 +16,13 @@ const Login = () => {
 
 		postLogin({ email, password })
 			.then((res) => {
+				saveUserDataOnLocalStorage({
+					token: res.data.token,
+					name: res.data.name,
+					id: res.data.id,
+				});
 				alert(`Bem-vindo, ${res.data.name}!`);
-				navigate("/");
+				navigate("/plans");
 			})
 			.catch((err) => {
 				if (err.response.status === 403) {
@@ -27,8 +32,18 @@ const Login = () => {
 				if (err.response.status === 404) {
 					alert("E-mail não cadastrado!");
 				}
+
+				if (err.response.status === 500) {
+					alert("Houve um erro no servidor");
+				}
 				setIsLoading(false);
 			});
+	}
+
+	function saveUserDataOnLocalStorage({ token, name, id }) {
+		localStorage.setItem("userID", id);
+		localStorage.setItem("token", token);
+		localStorage.setItem("name", name);
 	}
 
 	return (
