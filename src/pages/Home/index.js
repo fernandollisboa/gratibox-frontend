@@ -28,6 +28,10 @@ export default Home;
 const Image = styled.img`
 	height: 50%;
 	width: 100%;
+	@media screen and(min-width: 900px) {
+		width: 80%;
+		height: 80%;
+	}
 `;
 
 const ButtonsContainer = styled.div`

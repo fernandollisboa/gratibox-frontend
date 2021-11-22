@@ -33,6 +33,11 @@ const Signup = () => {
 				if (err.response.status === 400) {
 					alert("Preencha os campos corretamente!");
 				}
+
+				if (err.response.status === 500) {
+					alert("Houve um erro no servidor");
+				}
+
 				setIsLoading(false);
 			});
 	}
