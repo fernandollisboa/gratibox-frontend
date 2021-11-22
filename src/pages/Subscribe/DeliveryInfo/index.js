@@ -29,7 +29,7 @@ function DeliveryInfo({ deliveryInfo, setDeliveryInfo, sendSubscription }) {
 				setIsLoading(false);
 			})
 			.catch((err) => {
-				alert("Erro ao encontrar o CEP!");
+				alert("Erro ao encontrar o CEP! ( " + err + " )");
 				setIsLoading(false);
 			});
 	}
@@ -81,7 +81,7 @@ function DeliveryInfo({ deliveryInfo, setDeliveryInfo, sendSubscription }) {
 						});
 					}}
 				/>
-				<Address>
+				<AddressWrapper>
 					<input
 						type="text"
 						placeholder="Cidade"
@@ -108,14 +108,14 @@ function DeliveryInfo({ deliveryInfo, setDeliveryInfo, sendSubscription }) {
 							});
 						}}
 					>
-						<option value="" disabled selected>
+						<option value="default" disabled>
 							Estado
 						</option>
 						<option value="SE">SE</option>
 						<option value="PB">PB</option>
 						<option value="BA">BA</option>
 					</select>
-				</Address>
+				</AddressWrapper>
 			</SignPlan>
 			<Button type="submit" disabled={isLoading}>
 				Finalizar
@@ -172,7 +172,7 @@ const SignPlan = styled.div`
 	}
 `;
 
-const Address = styled.div`
+const AddressWrapper = styled.div`
 	padding: 0 !important;
 	background: initial !important;
 	margin-top: 0 !important;

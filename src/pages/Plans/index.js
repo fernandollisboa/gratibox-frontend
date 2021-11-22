@@ -1,31 +1,54 @@
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 import { PageDescription, PageWrapper } from "../../styles/shared";
 import styled from "styled-components";
 import weeklyPlanBackground from "../../assets/image04.jpg";
 import monthlyPlanBackground from "../../assets/image02.jpg";
 import Greeting from "../../components/Greeting";
+import { getUserSignature } from "../../services/plan";
+import StyledLoader from "../../components/Loader";
 
 const Plans = () => {
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(true);
+	const token = localStorage.getItem("token");
+
+	function checkSignature() {
+		getUserSignature({ token })
+			.then(() => navigate("/my-plan"))
+			.catch((err) => {
+				if (err.response.status === 404) alert("sem assinatura");
+				setIsLoading(false);
+			});
+	}
+	useEffect(checkSignature, [token, navigate]);
 
 	return (
 		<PageWrapper>
 			<Greeting />
-			<PageDescription>Você ainda não assinou um plano, que tal começar agora?</PageDescription>
-
-			<SignPlan>
-				<img src={weeklyPlanBackground} alt="woman medidating in a room" />
-				<h3>
-					Você recebe um box por semana. Ideal para quem quer exercer a gratidão todos os dias.
-				</h3>
-				<Button onClick={() => navigate("/subscribe")}>Assinar</Button>
-			</SignPlan>
-
-			<SignPlan>
-				<img src={monthlyPlanBackground} alt="woman medidating in a room by other angle" />
-				<h3>Você recebe um box por mês. Ideal para quem está começando agora.</h3>
-				<Button onClick={() => navigate("/subscribe")}>Assinar</Button>
-			</SignPlan>
+			{isLoading ? (
+				<StyledLoader />
+			) : (
+				<>
+					<PageDescription>Você ainda não assinou um plano, que tal começar agora?</PageDescription>
+					<SignPlan>
+						<img src={weeklyPlanBackground} alt="woman medidating in a room" />
+						<h3>
+							Você recebe um box por semana. Ideal para quem quer exercer a gratidão todos os dias.
+						</h3>
+						<Button disabled={isLoading} onClick={() => navigate("/subscribe")}>
+							Assinar
+						</Button>
+					</SignPlan>
+					<SignPlan>
+						<img src={monthlyPlanBackground} alt="woman medidating in a room by other angle" />
+						<h3>Você recebe um box por mês. Ideal para quem está começando agora.</h3>
+						<Button disabled={isLoading} onClick={() => navigate("/subscribe")}>
+							Assinar
+						</Button>
+					</SignPlan>{" "}
+				</>
+			)}
 		</PageWrapper>
 	);
 };

@@ -1,17 +1,16 @@
-/* eslint-disable no-unused-vars */
-import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { PageWrapper, PageDescription } from "../../styles/shared";
+import { useState } from "react";
+import { PageWrapper, PageDescription, SubscriptionWrapper } from "../../styles/shared";
 import Greeting from "../../components/Greeting";
 import image from "../../assets/image03.jpg";
 import PlanInfo from "./PlanInfo";
 import DeliveryInfo from "./DeliveryInfo";
-import { useNavigate } from "react-router";
 import { postSubscription } from "../../services/plan";
+import { useNavigate } from "react-router";
 
 const Subscribe = () => {
 	const userID = localStorage.getItem("userID");
 	const token = localStorage.getItem("token");
+	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [myPlanData, setMyPlanData] = useState({
 		type: "",
@@ -30,10 +29,11 @@ const Subscribe = () => {
 		postSubscription({ userID, myPlanData, deliveryInfo, token })
 			.then((res) => {
 				console.log(res);
+				navigate("/my-plan");
 			})
 			.catch((err) => {
 				console.log(err);
-				alert("Houve algum erro xd xd xd ");
+				alert("Houve um erro");
 			});
 	}
 
@@ -50,16 +50,11 @@ const Subscribe = () => {
 			});
 	}
 
-	const navigate = useNavigate();
-	function test() {
-		console.log(myPlanData);
-	}
-
 	return (
 		<PageWrapper>
 			<Greeting />
 			<PageDescription>“Agradecer é arte de atrair coisas boas”</PageDescription>
-			<MySignatureDetails>
+			<SubscriptionWrapper>
 				<img src={image} alt="woman medidating in a room" />
 
 				{page === 1 ? (
@@ -68,7 +63,6 @@ const Subscribe = () => {
 						setMyPlanData={setMyPlanData}
 						updateProducts={updateProducts}
 						setPage={setPage}
-						test={test}
 					/>
 				) : (
 					""
@@ -82,35 +76,8 @@ const Subscribe = () => {
 				) : (
 					""
 				)}
-			</MySignatureDetails>
+			</SubscriptionWrapper>
 		</PageWrapper>
 	);
 };
 export default Subscribe;
-
-const MySignatureDetails = styled.div`
-	background: #ffffff;
-	border-radius: 10px;
-	width: 356px;
-	height: 382px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	padding-bottom: 5px;
-	margin-top: 10px;
-	img {
-		width: 100%;
-		height: 40%;
-		object-fit: cover;
-		border-radius: 10px;
-	}
-	& > p {
-		font-weight: 700;
-		font-size: 18px;
-		padding: 0 16px;
-		color: #e63c80;
-	}
-	.label {
-		color: #4d65a8;
-	}
-`;

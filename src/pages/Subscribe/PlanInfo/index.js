@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage, test }) {
+function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage }) {
 	const [type, setType] = useState("text");
 	const [plans, setPlans] = useState([
 		{ id: "MONTH", name: "Mensal" },
@@ -30,11 +30,9 @@ function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage, test }) 
 		e.preventDefault();
 		if (!myPlanData.type || !myPlanData.deliveryRateId || !myPlanData.products.length) {
 			alert("Preencha todos os campos para prosseguir");
-			test();
 			return;
 		}
 		setPage(2);
-		test();
 	}
 
 	return (
@@ -53,7 +51,7 @@ function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage, test }) 
 						});
 					}}
 				>
-					<option value="default" disabled>
+					<option key="-1" value="default" disabled>
 						Plano
 					</option>
 					{plans.length > 0 ? (
@@ -80,7 +78,7 @@ function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage, test }) 
 						});
 					}}
 				>
-					<option value="default" disabled>
+					<option key="-1" value="default" disabled>
 						Entrega
 					</option>
 					{myPlanData?.type

@@ -87,3 +87,30 @@ export const HomeButton = styled.button`
 	height: 100%;
 	padding-bottom: 40vw;
 `;
+
+export const SubscriptionWrapper = styled.div`
+	background: #ffffff;
+	border-radius: 10px;
+	width: 356px;
+	height: 382px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-bottom: 5px;
+	margin-top: 10px;
+	img {
+		width: 100%;
+		height: 40%;
+		object-fit: cover;
+		border-radius: 10px;
+	}
+	& > p {
+		font-weight: 700;
+		font-size: 18px;
+		padding: 0 16px;
+		color: #e63c80;
+	}
+	.label {
+		color: #4d65a8;
+	}
+`;
