@@ -2,16 +2,19 @@ import styled from "styled-components";
 import searchCep from "../../../services/cep-api";
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
-function DeliveryInfo({ deliveryInfo, setDeliveryInfo, setPage, test2 }) {
+function DeliveryInfo({ deliveryInfo, setDeliveryInfo, sendSubscription }) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [cep, setCep] = useState("");
+	const navigate = useNavigate();
 
 	function next(e) {
 		e.preventDefault();
-		setPage(3);
-		test2();
+		sendSubscription();
+		navigate("/plans");
 	}
+
 	function findCep(e) {
 		e.preventDefault();
 		setIsLoading(true);

@@ -77,7 +77,6 @@ const Subscribe = () => {
 					<DeliveryInfo
 						deliveryInfo={deliveryInfo}
 						setDeliveryInfo={setDeliveryInfo}
-						setPage={setPage}
 						sendSubscription={sendSubscription}
 					/>
 				) : (
@@ -105,7 +104,7 @@ const MySignatureDetails = styled.div`
 		object-fit: cover;
 		border-radius: 10px;
 	}
-	p {
+	& > p {
 		font-weight: 700;
 		font-size: 18px;
 		padding: 0 16px;

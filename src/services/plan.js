@@ -9,7 +9,7 @@ export async function postSubscription({ userID, myPlanData, deliveryInfo, token
 		plan: { type, deliveryRateId, products },
 		delivery: { name, address, cep, city, state },
 	};
+	console.log({ body });
 	const config = createHeaders(token);
-
-	return API.post("/signature", config, body);
+	return API.post("/signature", body, config);
 }

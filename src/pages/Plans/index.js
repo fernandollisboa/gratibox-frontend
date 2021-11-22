@@ -1,19 +1,17 @@
 import { useNavigate } from "react-router";
-import { PageDescription, PageTitle, PageWrapper } from "../../styles/shared";
+import { PageDescription, PageWrapper } from "../../styles/shared";
 import styled from "styled-components";
 import weeklyPlanBackground from "../../assets/image04.jpg";
 import monthlyPlanBackground from "../../assets/image02.jpg";
+import Greeting from "../../components/Greeting";
 
 const Plans = () => {
 	const navigate = useNavigate();
-	const userName = localStorage.getItem("name");
 
 	return (
 		<PageWrapper>
-			<div>
-				<PageTitle>Bom te ver por aqui, {userName} </PageTitle>
-				<PageDescription>Você ainda não assinou um plano, que tal começar agora?</PageDescription>
-			</div>
+			<Greeting />
+			<PageDescription>Você ainda não assinou um plano, que tal começar agora?</PageDescription>
 
 			<SignPlan>
 				<img src={weeklyPlanBackground} alt="woman medidating in a room" />
@@ -24,9 +22,9 @@ const Plans = () => {
 			</SignPlan>
 
 			<SignPlan>
-				<img src={monthlyPlanBackground} alt="woman medidating in a room" />
+				<img src={monthlyPlanBackground} alt="woman medidating in a room by other angle" />
 				<h3>Você recebe um box por mês. Ideal para quem está começando agora.</h3>
-				<Button onClick={() => console.log(navigate("/subscribe"))}>Assinar</Button>
+				<Button onClick={() => navigate("/subscribe")}>Assinar</Button>
 			</SignPlan>
 		</PageWrapper>
 	);
@@ -56,6 +54,7 @@ const SignPlan = styled.div`
 		object-fit: cover;
 		border-radius: 25px;
 	}
+	margin-bottom: 20px;
 `;
 
 export const Button = styled.button`

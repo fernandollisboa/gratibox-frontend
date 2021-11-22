@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import image from "../../../assets/image03.jpg";
-import { useNavigate } from "react-router";
+import { useState } from "react";
 
 function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage, test }) {
 	const [type, setType] = useState("text");
@@ -27,8 +25,6 @@ function PlanInfo({ myPlanData, setMyPlanData, updateProducts, setPage, test }) 
 		{ id: 4, name: "Toda Quarta" },
 		{ id: 5, name: "Toda Sexta" },
 	]);
-
-	const navigate = useNavigate();
 
 	function next(e) {
 		e.preventDefault();
