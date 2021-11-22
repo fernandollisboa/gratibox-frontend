@@ -1,11 +1,16 @@
 import API from "./api";
 
-function createHeaders(token) {
-	const config = { headers: { authorization: `Bearer ${token}` } };
-	return config;
+// function createHeaders(token) {
+// 	const config = { headers: { authorization: `Bearer ${token}` } };
+// 	return config;
+// }
+
+export async function postSignup({ name, email, password, confirmPassword }) {
+	const body = { name, email, password, confirmPassword };
+	return API.post("/sign-up", body);
 }
 
-async function postSignup({ name, email, password, passwordConfirmation }) {
-	const body = { name, email, password, passwordConfirmation };
-	return API.post("/signup", body);
+export async function postLogin({ email, password }) {
+	const body = { email, password };
+	return API.post("/login", body);
 }

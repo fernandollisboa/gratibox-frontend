@@ -1,8 +1,8 @@
-import styled from "styled-components";
 import { useState } from "react";
-import { PageWrapper, PageTitle } from "../../styles/shared";
+import { PageWrapper, PageTitle, AuthForm, HomeButton } from "../../styles/shared";
 import StyledLoader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
+import { postSignup } from "../../services/auth";
 
 const Signup = () => {
 	const navigate = useNavigate();
@@ -15,7 +15,26 @@ const Signup = () => {
 	function signUp(e) {
 		e.preventDefault();
 		setIsLoading(true);
-		console.log(name, email, password, confirmPassword);
+		if (password !== confirmPassword) {
+			alert("As senhas não coincidem!");
+			setIsLoading(false);
+			return;
+		}
+		postSignup({ name, email, password, confirmPassword })
+			.then((res) => {
+				alert("Usuário criado com sucesso!");
+				navigate("/");
+			})
+			.catch((err) => {
+				if (err.response.status === 409) {
+					alert("E-mail já cadastrado!");
+				}
+
+				if (err.response.status === 400) {
+					alert("Preencha os campos corretamente!");
+				}
+				setIsLoading(false);
+			});
 	}
 
 	return (
@@ -23,7 +42,7 @@ const Signup = () => {
 			<PageTitle>
 				Bem-vindo ao <strong>GratiBox</strong>
 			</PageTitle>
-			<SignupForm onSubmit={signUp}>
+			<AuthForm onSubmit={signUp}>
 				<input
 					type="text"
 					required
@@ -56,82 +75,11 @@ const Signup = () => {
 					value={confirmPassword}
 					disabled={isLoading}
 				/>
-				<button type="submit" className="signer" onClick={signUp}>
-					{isLoading ? <StyledLoader /> : "Cadastrar"}
-				</button>
-			</SignupForm>
-			<HomeButton onClick={() => navigate("/")}>Voltar Para Login</HomeButton>
+				<button type="submit">{isLoading ? <StyledLoader /> : "Cadastrar"}</button>
+			</AuthForm>
+			<HomeButton onClick={() => navigate("/login")}>Ir Para Login</HomeButton>
 		</PageWrapper>
 	);
 };
 
 export default Signup;
-
-const SignupForm = styled.form`
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	width: 100%;
-	flex: 1;
-
-	input {
-		height: 58px;
-		width: 100%;
-		border-radius: 10px;
-		border: none;
-		outline: none;
-		color: #604848;
-		margin: 7px 0px;
-		padding: 15px;
-		font-size: 20px;
-		max-width: 89%;
-	}
-
-	button {
-		border: none;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		outline: none;
-		width: 100%;
-		max-width: 300px;
-		font-weight: 700;
-		font-size: 32px;
-		border-radius: 10px;
-		background-color: #8c97ea;
-		color: #fff;
-		padding: 10px 20px;
-		margin-top: 20px;
-		cursor: pointer;
-	}
-`;
-
-const HomeButton = styled.button`
-	font-weight: 500;
-	cursor: pointer;
-	width: 60%;
-	padding: 4% 5%;
-	color: var(--color-4);
-	font-size: 20px;
-	background: transparent;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border: none;
-	height: 100%;
-	padding-bottom: 30vw;
-`;
-
-const ButtonsContainer = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	background-color: rgb(77, 101, 168);
-	flex: 1;
-	padding-bottom: 13%;
-
-	button {
-	}
-`;
