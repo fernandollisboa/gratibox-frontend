@@ -29,8 +29,6 @@ const Login = () => {
 				}
 				setIsLoading(false);
 			});
-
-		console.log(email, password);
 	}
 
 	return (
@@ -38,7 +36,7 @@ const Login = () => {
 			<PageTitle>
 				Bem-vindo ao <strong>GratiBox</strong>
 			</PageTitle>
-			<AuthForm onSubmit={postLogin}>
+			<AuthForm onSubmit={checkCredentials}>
 				<input
 					type="email"
 					placeholder="E-mail"
