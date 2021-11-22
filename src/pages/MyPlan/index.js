@@ -25,7 +25,6 @@ const MyPlan = () => {
 	}
 
 	function checkSignature() {
-		console.log(token);
 		getUserSignature({ token })
 			.then((res) => {
 				const { id, type, created_at, deliveryRateId, products } = res.data;

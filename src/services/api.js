@@ -9,6 +9,4 @@ export function createHeaders(token) {
 	return config;
 }
 
-console.log(process.env.REACT_APP_BASE_URL);
-
 export default API;

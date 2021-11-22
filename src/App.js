@@ -4,8 +4,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Plans from "./pages/Plans";
 import Signup from "./pages/Signup";
-import MyPlan from "./pages/MyPlan";
 import Subscribe from "./pages/Subscribe";
+import MyPlan from "./pages/MyPlan";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 const App = () => {
 	return (
@@ -15,9 +16,15 @@ const App = () => {
 				<Route exact path="/" element={<Home />} />
 				<Route exact path="/sign-up" element={<Signup />} />
 				<Route exact path="/login" element={<Login />} />
-				<Route exact path="/plans" element={<Plans />} />
-				<Route exact path="/subscribe" element={<Subscribe />} />
-				<Route exact path="/my-plan" element={<MyPlan />} />
+				<Route exact path="/plans" element={<ProtectedRoute />}>
+					<Route exact path="/plans" element={<Plans />} />
+				</Route>
+				<Route exact path="/subscribe" element={<ProtectedRoute />}>
+					<Route exact path="/subscribe" element={<Subscribe />} />
+				</Route>
+				<Route exact path="/my-plan" element={<ProtectedRoute />}>
+					<Route exact path="/my-plan" element={<MyPlan />} />
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);

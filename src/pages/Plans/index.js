@@ -17,7 +17,6 @@ const Plans = () => {
 		getUserSignature({ token })
 			.then(() => navigate("/my-plan"))
 			.catch((err) => {
-				if (err.response.status === 404) alert("sem assinatura");
 				setIsLoading(false);
 			});
 	}
