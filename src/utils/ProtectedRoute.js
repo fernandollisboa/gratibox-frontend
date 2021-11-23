@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from "react-router-dom";
-function ProtectedRoute({ children }) {
+function ProtectedRoute() {
 	const token = localStorage.getItem("token");
 	return token ? <Outlet /> : <Navigate to="/" />;
 }
