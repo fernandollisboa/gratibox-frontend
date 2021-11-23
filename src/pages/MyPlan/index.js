@@ -8,7 +8,7 @@ import { PageWrapper, SubscriptionWrapper, PageDescription } from "../../styles/
 import Greeting from "../../components/Greeting";
 import image from "../../assets/image03.jpg";
 import StyledLoader from "../../components/Loader";
-import { nextDay, format, addMonths, startOfMonth, add, isFuture } from "date-fns";
+import { nextDay, format, addMonths, startOfMonth, add, isFuture, getDay } from "date-fns";
 
 const MyPlan = () => {
 	const token = localStorage.getItem("token");
@@ -28,12 +28,10 @@ const MyPlan = () => {
 			.then((res) => {
 				const { id, type, created_at, deliveryRateId, products } = res.data;
 				setUserPlan({ id, type, createdAt: created_at, deliveryRateId, products });
-				console.log(deliveryRateId, type);
 				calculateNextDates(deliveryRateId, type);
 				setIsLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
 				if (err.response.status === 404) alert("sem assinatura");
 				setIsLoading(false);
 			});
@@ -46,7 +44,6 @@ const MyPlan = () => {
 	}
 
 	function calculateNextDates(rate, type) {
-		console.log("!adsdasd");
 		if (type === "WEEKL") {
 			let dayOfWeek;
 
@@ -58,13 +55,9 @@ const MyPlan = () => {
 
 			for (let i = 0; i < 3; i++) {
 				let newDay = nextDay(currentDay, dayOfWeek);
-				console.log("current" + currentDay);
-				console.log("new" + newDay);
 				setDeliveryDates((dates) => [...dates, format(newDay, "dd/MM/yyyy")]);
 				currentDay = newDay;
 			}
-
-			console.log(deliveryDates);
 			return;
 		}
 
@@ -82,12 +75,19 @@ const MyPlan = () => {
 			}
 
 			for (let i = 0; i < 3; i++) {
+				currentDelivery = checkWeekend(currentDelivery);
 				setDeliveryDates((dates) => [...dates, format(currentDelivery, "dd/MM/yyyy")]);
 				let nextDelivery = addMonths(currentDelivery, 1);
 				currentDelivery = nextDelivery;
 			}
 			return;
 		}
+	}
+
+	function checkWeekend(day) {
+		if (getDay(day) === 0) return add(day, { days: 1 });
+		if (getDay(day) === 6) return add(day, { days: 2 });
+		return day;
 	}
 
 	return (
@@ -150,7 +150,7 @@ const Products = styled.div`
 	padding: 10px 20px;
 
 	p {
-		font-size: 20px;
+		font-size: 18px;
 		color: var(--color-1);
 		font-weight: 400;
 	}
