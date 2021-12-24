@@ -28,11 +28,9 @@ const Subscribe = () => {
 	function sendSubscription() {
 		postSubscription({ userID, myPlanData, deliveryInfo, token })
 			.then((res) => {
-				console.log(res);
 				navigate("/my-plan");
 			})
 			.catch((err) => {
-				console.log(err);
 				alert("Houve um erro");
 			});
 	}

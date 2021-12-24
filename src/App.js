@@ -13,17 +13,13 @@ const App = () => {
 		<BrowserRouter>
 			<GlobalStyle />
 			<Routes>
-				<Route exact path="/" element={<Home />} />
-				<Route exact path="/sign-up" element={<Signup />} />
-				<Route exact path="/login" element={<Login />} />
-				<Route exact path="/plans" element={<ProtectedRoute />}>
-					<Route exact path="/plans" element={<Plans />} />
-				</Route>
-				<Route exact path="/subscribe" element={<ProtectedRoute />}>
-					<Route exact path="/subscribe" element={<Subscribe />} />
-				</Route>
-				<Route exact path="/my-plan" element={<ProtectedRoute />}>
-					<Route exact path="/my-plan" element={<MyPlan />} />
+				<Route path="/" element={<Home />} />
+				<Route path="/sign-up" element={<Signup />} />
+				<Route path="/login" element={<Login />} />
+				<Route element={<ProtectedRoute />}>
+					<Route path="/plans" element={<Plans />} />
+					<Route path="/subscribe" element={<Subscribe />} />
+					<Route path="/my-plan" element={<MyPlan />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

@@ -1,3 +1,5 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable react-hooks/exhaustive-deps */
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -6,6 +8,7 @@ import { PageWrapper, SubscriptionWrapper, PageDescription } from "../../styles/
 import Greeting from "../../components/Greeting";
 import image from "../../assets/image03.jpg";
 import StyledLoader from "../../components/Loader";
+import { nextDay, format, addMonths, startOfMonth, add, isFuture, getDay } from "date-fns";
 
 const MyPlan = () => {
 	const token = localStorage.getItem("token");
@@ -17,35 +20,74 @@ const MyPlan = () => {
 		deliveryRateId: "",
 		products: [],
 	});
-	const periodOfTime = userPlan.type === "MONTH" ? 30 : 7;
-
-	function returnPlanType() {
-		if (userPlan.type === "MONTH") return "Mensal";
-		if (userPlan.type === "WEEKL") return "Semanal";
-	}
+	const [deliveryDates, setDeliveryDates] = useState([]);
+	const today = new Date();
 
 	function checkSignature() {
 		getUserSignature({ token })
 			.then((res) => {
 				const { id, type, created_at, deliveryRateId, products } = res.data;
 				setUserPlan({ id, type, createdAt: created_at, deliveryRateId, products });
+				calculateNextDates(deliveryRateId, type);
 				setIsLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
-				console.log(err);
 				if (err.response.status === 404) alert("sem assinatura");
 				setIsLoading(false);
 			});
 	}
 	useEffect(checkSignature, [token]);
 
-	function businessDay(date) {
-		if (dayjs(date).day() === 6) return dayjs(dayjs(date).add(2, "days").format());
+	function returnPlanType() {
+		if (userPlan.type === "MONTH") return "Mensal";
+		if (userPlan.type === "WEEKL") return "Semanal";
+	}
 
-		if (dayjs(date).day() === 0) return dayjs(dayjs(date).add(1, "days").format());
+	function calculateNextDates(rate, type) {
+		if (type === "WEEKL") {
+			let dayOfWeek;
 
-		return dayjs(date).format();
+			if (rate === 3) dayOfWeek = 1;
+			if (rate === 4) dayOfWeek = 3;
+			if (rate === 5) dayOfWeek = 5;
+
+			let currentDay = today;
+
+			for (let i = 0; i < 3; i++) {
+				let newDay = nextDay(currentDay, dayOfWeek);
+				setDeliveryDates((dates) => [...dates, format(newDay, "dd/MM/yyyy")]);
+				currentDay = newDay;
+			}
+			return;
+		}
+
+		if (type === "MONTH") {
+			let dayOfMonth;
+
+			if (rate === 0) dayOfMonth = 1;
+			if (rate === 1) dayOfMonth = 10;
+			if (rate === 2) dayOfMonth = 20;
+
+			let currentDelivery = add(startOfMonth(today), { days: dayOfMonth - 1 });
+
+			if (!isFuture(currentDelivery)) {
+				currentDelivery = addMonths(currentDelivery, 1);
+			}
+
+			for (let i = 0; i < 3; i++) {
+				currentDelivery = checkWeekend(currentDelivery);
+				setDeliveryDates((dates) => [...dates, format(currentDelivery, "dd/MM/yyyy")]);
+				let nextDelivery = addMonths(currentDelivery, 1);
+				currentDelivery = nextDelivery;
+			}
+			return;
+		}
+	}
+
+	function checkWeekend(day) {
+		if (getDay(day) === 0) return add(day, { days: 1 });
+		if (getDay(day) === 6) return add(day, { days: 2 });
+		return day;
 	}
 
 	return (
@@ -69,21 +111,9 @@ const MyPlan = () => {
 							</p>
 							<p>
 								<span className="label">Próximas entregas:</span>
-								<li>
-									{dayjs(businessDay(dayjs(userPlan?.startDate).add(periodOfTime, "days"))).format(
-										"DD/MM/YYYY"
-									)}
-								</li>
-								<li>
-									{dayjs(
-										businessDay(dayjs(userPlan?.startDate).add(periodOfTime * 2, "days"))
-									).format("DD/MM/YYYY")}
-								</li>
-								<li>
-									{dayjs(
-										businessDay(dayjs(userPlan?.startDate).add(periodOfTime * 3, "days"))
-									).format("DD/MM/YYYY")}
-								</li>
+								{deliveryDates.map((date) => (
+									<li>{date}</li>
+								))}
 							</p>
 						</Deliveries>
 						<Products>
@@ -116,9 +146,12 @@ const Deliveries = styled.div`
 const Products = styled.div`
 	display: flex;
 	width: 100%;
-	justify-content: space-between;
+	justify-content: space-around;
+	padding: 10px 20px;
+
 	p {
-		font-size: 17px;
+		font-size: 18px;
+		color: var(--color-1);
 		font-weight: 400;
 	}
 `;
